@@ -4,8 +4,12 @@ import (
 	"errors"
 )
 
+func isValidAmount(amount float64) bool {
+	return amount > 0
+}
+
 type Calculator interface {
-	Calculate(amount float64) float64
+	Calculate(amount float64) (float64, error)
 }
 
 func getPrecentage(amount , precentage float64) float64 {
@@ -17,40 +21,56 @@ func getPrecentageInclude(amount, precentage float64) float64 {
 }
 
 type CalculatorPpn10 struct {}
-	func (calc CalculatorPpn10) Calculate(amount float64) float64 {
-		return getPrecentage(amount, 0.10)
+	func (calc CalculatorPpn10) Calculate(amount float64) (float64, error) {
+		if !isValidAmount(amount) {
+			return 0.0, errors.New("amount tidak valid")
+		}
+		return getPrecentage(amount, 0.10), nil
 	}
 
 type CalculatorPpn11 struct {}
-	func (calc CalculatorPpn11) Calculate(amount float64) float64 {
-		return getPrecentage(amount, 0.11)
+	func (calc CalculatorPpn11) Calculate(amount float64) (float64, error) {
+		if !isValidAmount(amount) {
+			return 0.0, errors.New("amount tidak valid")
+		}
+		return getPrecentage(amount, 0.11), nil
 	}
 
 type CalculatorPpn10IncludeTax struct {}
-	func (calc CalculatorPpn10IncludeTax) Calculate(amount float64) float64 {
-		return getPrecentageInclude(amount, 0.10)
+	func (calc CalculatorPpn10IncludeTax) Calculate(amount float64) (float64, error) {
+		if !isValidAmount(amount) {
+			return 0.0, errors.New("amount tidak valid")
+		}
+		return getPrecentageInclude(amount, 0.10), nil
 	}
 
 type CalculatorPpn11IncludeTax struct {}
-	func (calc CalculatorPpn11IncludeTax) Calculate(amount float64) float64 {
-		return getPrecentageInclude(amount, 0.11)
+	func (calc CalculatorPpn11IncludeTax) Calculate(amount float64) (float64, error) {
+		if !isValidAmount(amount) {
+			return 0.0, errors.New("amount tidak valid")
+		}
+		return getPrecentageInclude(amount, 0.11), nil
 	}
 
 type CalculatorPph21 struct {}
-	func (calc CalculatorPph21) Calculate(amount float64) float64 {
+	func (calc CalculatorPph21) Calculate(amount float64) (float64, error) {
+		if !isValidAmount(amount) {
+			return 0.0, errors.New("amount tidak valid")
+		}
+		
 		juta := 1000000.0
 		if amount < 40*juta {
-			return 0.0
+			return 0.0, nil
 		} else if amount < 50*juta {
-			return getPrecentage(amount, 0.05)
+			return getPrecentage(amount, 0.05), nil
 		} else if amount < 250*juta {
-			return getPrecentage(amount, 0.15)
+			return getPrecentage(amount, 0.15), nil
 		} else if amount < 500*juta {
-			return getPrecentage(amount, 0.25)
+			return getPrecentage(amount, 0.25), nil
 		} else if amount >= 500*juta {
-			return getPrecentage(amount, 0.30)
+			return getPrecentage(amount, 0.30), nil
 		} else {
-			return -1
+			return -1, errors.New("error tidak diketahui di calculator pph 21 calculate")
 		}
 	}
 

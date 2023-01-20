@@ -17,5 +17,11 @@ func (controller Controller) GetTax(calcType string, amount float64) {
 		fmt.Println(err)
 	} 
 
-	view.PrintResult(amount, calc.Calculate(amount))
+	result, err := calc.Calculate(amount)
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		view.PrintResult(amount, result)
+	}
 }
