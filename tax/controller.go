@@ -6,8 +6,8 @@ import (
 
 type Controller struct {}
 
-func (controller Controller) GetTax(calcType string, amount float64) {
-	calc, err := CalculatorFactory{}.GetCalculator(calcType)
+func (controller Controller) GetTax(taxType TaxType, amount float64) {
+	calc, err := CalculatorFactory{}.GetCalculator(taxType)
 	if err != nil {
 		fmt.Println(err)
 	}

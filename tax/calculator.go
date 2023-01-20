@@ -74,14 +74,18 @@ type CalculatorPph21 struct {}
 		}
 	}
 
-const TypePpn10 string = "ppn10"
-const TypePpn11 string = "ppn11"
-const TypePpn10IncludeTax string = "ppn10IncludeTax"
-const TypePpn11IncludeTax string = "ppn11IncludeTax"
-const TypePph21 string = "pph21"
+type TaxType string
+
+const (
+	TypePpn10 TaxType = "ppn10"
+	TypePpn11 TaxType = "ppn11"
+	TypePpn10IncludeTax TaxType = "ppn10IncludeTax"
+	TypePpn11IncludeTax TaxType = "ppn11IncludeTax"
+	TypePph21 TaxType = "pph21"
+)
 
 type CalculatorFactory struct {}
-	func (factory CalculatorFactory) GetCalculator(typeName string) (Calculator, error) {
+	func (factory CalculatorFactory) GetCalculator(typeName TaxType) (Calculator, error) {
 		switch typeName {
 			case TypePpn10: return CalculatorPpn10{}, nil
 			case TypePpn11: return CalculatorPpn11{}, nil
